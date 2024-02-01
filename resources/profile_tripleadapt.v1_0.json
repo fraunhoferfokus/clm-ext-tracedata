@@ -1,0 +1,565 @@
+{
+    "id": "https://tripleadapt.fokus.fraunhofer.de/api/traceData/profiles",
+    "@context": "https://w3id.org/xapi/profiles/context",
+    "type": "Profile",
+    "conformsTo": "https://w3id.org/xapi/profiles#1.0",
+    "prefLabel": {
+        "en": "TripleAdapt xAPI Vocabulary"
+    },
+    "definition": {
+        "en": "The xAPI vocabulary list includes Verbs and Activity Types used to represent common learning experiences in the BMBF funded project TripleAdapt."
+    },
+    "versions": [
+        {
+            "id": "https://tripleadapt.fokus.fraunhofer.de/api/traceData/profiles/v1.0",
+            "generatedAtTime": "2023-06-26T22:00:00.955Z"
+        }
+    ],
+    "author": {
+        "type": "Organization",
+        "name": "TripleAdapt",
+        "url": "https://tripleadapt.fokus.fraunhofer.de"
+    },
+    "concepts": [
+        {
+            "id": "http://adlnet.gov/expapi/verbs/answered",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/adl/v1.0",
+            "prefLabel": {
+                "en": "answered"
+            },
+            "definition": {
+                "en": "Indicates the actor replied to a question, where the object is generally an activity representing the question. The text of the answer will often be included in the response inside result."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/activities/assessment",
+            "type": "ActivityType",
+            "inScheme": "https://w3id.org/xapi/scorm/v/2",
+            "prefLabel": {
+                "en": "assessment"
+            },
+            "definition": {
+                "en": "An assessment is an activity type that determines a learner’s mastery of a particular subject area. An assessment typically has one or more questions."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/verbs/attempted",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/adl/v1.0",
+            "prefLabel": {
+                "en": "attempted"
+            },
+            "definition": {
+                "en": "Indicates the actor made an effort to access the object. An attempt statement without additional activities could be considered incomplete in some cases."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/verbs/attended",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/adl/v1.0",
+            "prefLabel": {
+                "en": "attended"
+            },
+            "definition": {
+                "en": "Indicates the actor was present at a virtual or physical event or activity."
+            },
+            "relatedMatch": [
+                "https://w3id.org/xapi/adb/verbs/attended",
+                "http://activitystrea.ms/schema/attend"
+            ]
+        },
+        {
+            "id": "http://specification.openbadges.org/xapi/extensions/badgeassertion",
+            "type": "ResultExtension",
+            "inScheme": "http://specification.openbadges.org/xapi",
+            "prefLabel": {
+                "en": "open badge assertion"
+            },
+            "definition": {
+                "en": "Result Extension containing an object with an @id property pointing to the IRI of a hosted Open Badge Assertion."
+            }
+        },
+        {
+            "id": "http://specification.openbadges.org/xapi/extensions/badgeclass",
+            "type": "ContextExtension",
+            "inScheme": "http://specification.openbadges.org/xapi",
+            "prefLabel": {
+                "en": "open badge class"
+            },
+            "definition": {
+                "en": "Activity Definition Extension containing an object with an @id property pointing to the IRI of a hosted Open Badge Class definition."
+            }
+        },
+        {
+            "id": "http://specification.openbadges.org/xapi/attachment/badge",
+            "type": "AttachmentUsageType",
+            "inScheme": "http://specification.openbadges.org/xapi",
+            "prefLabel": {
+                "en": "open badges baked badge image"
+            },
+            "definition": {
+                "en": "An attached Baked Badge Image. This is a png image containing additional metadata as defined by the Open Badges specification."
+            }
+        },
+        {
+            "id": "http://activitystrea.ms/badge",
+            "type": "ActivityType",
+            "inScheme": "http://activitystrea.ms/schema",
+            "prefLabel": {
+                "en": "badge"
+            },
+            "definition": {
+                "en": "Represents a badge or award granted to an object (typically a person object)."
+            }
+        },
+        {
+            "id": "https://www.opigno.org/en/tincan_registry/activity_type/certificate",
+            "type": "ActivityType",
+            "inScheme": "https://registry.tincanapi.com",
+            "prefLabel": {
+                "en": "certificate"
+            },
+            "definition": {
+                "en": "A document attesting to the fact that a person has completed an educational course."
+            }
+        },
+        {
+            "id": "http://id.tincanapi.com/attachment/certificate-of-completion",
+            "type": "AttachmentUsageType",
+            "inScheme": "https://registry.tincanapi.com",
+            "prefLabel": {
+                "en": "certificate of completion"
+            },
+            "definition": {
+                "en": "Certificate provided upon completion of an exercise, perhaps as part of a formal learning activity."
+            }
+        },
+        {
+            "id": "http://www.tincanapi.co.uk/extensions/result/classification",
+            "type": "ResultExtension",
+            "inScheme": "https://registry.tincanapi.com",
+            "prefLabel": {
+                "en": "classification"
+            },
+            "definition": {
+                "en": "A result extension used to store the grade awarded as a result of the experience. The value of this extension is an activity object representing the grade earned. This activity object should have an activity type of http://www.tincanapi.co.uk/activitytypes/grade_classification. The name of the activity should contain the value of the grade (e.g. “A”). An activity object is used rather than a single letter string as grade letters in different contexts, for example a grade A for a nationally recognized qualification has very different meaning to an A awarded by a teacher to a small child for a drawing of a cat. The activity used should represent the grade within the context it is awarded."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/verbs/completed",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/scorm/v/2",
+            "prefLabel": {
+                "en": "completed"
+            },
+            "definition": {
+                "en": "Indicates the actor finished or concluded the activity normally."
+            },
+            "exactMatch": [
+                "http://activitystrea.ms/schema/complete"
+            ]
+        },
+        {
+            "id": "http://activitystrea.ms/complete",
+            "type": "Verb",
+            "inScheme": "http://activitystrea.ms/schema",
+            "prefLabel": {
+                "en": "completed"
+            },
+            "definition": {
+                "en": "Indicates that the actor has completed the object."
+            },
+            "exactMatch": [
+                "http://adlnet.gov/expapi/verbs/completed"
+            ]
+        },
+        {
+            "id": "http://adlnet.gov/expapi/activities/course",
+            "type": "ActivityType",
+            "inScheme": "https://w3id.org/xapi/scorm/v/2",
+            "prefLabel": {
+                "en": "course"
+            },
+            "definition": {
+                "en": "A course represents an entire “content package” worth of material. The largest level of granularity. Unless flat, a course consists of multiple modules."
+            },
+            "exactMatch": [
+                "https://w3id.org/xapi/cmi5/activities/course"
+            ]
+        },
+        {
+            "id": "https://tripleadapt.fokus.fraunhofer.de/api/traceData/profiles/extensions/course_id",
+            "type": "ContextExtension",
+            "inScheme": "https://tripleadapt.fokus.fraunhofer.de/api/traceData/profiles/v1.0",
+            "prefLabel": {
+                "en": "course id"
+            },
+            "definition": {
+                "en": "Represents the course id (url) the actor has experienced in the statement."
+            }
+        },
+        {
+            "id": "https://w3id.org/xapi.gblxapi/extensions/difficulty",
+            "type": "ActivityExtension",
+            "inScheme": "https://w3id.org/xapi/gblxapi/v1.0",
+            "prefLabel": {
+                "en": "difficulty"
+            },
+            "definition": {
+                "en": "Represents a difficulty level that determines the complexity of questions that the learner must answer or activities they must perform."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/verbs/exited",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/adl/v1.0",
+            "prefLabel": {
+                "en": "exited"
+            },
+            "definition": {
+                "en": "Indicates the actor intentionally departed from the activity or object."
+            }
+        },
+        {
+            "id": "http://id.tincanapi.com/verb/earned",
+            "type": "Verb",
+            "inScheme": "https://registry.tincanapi.com",
+            "prefLabel": {
+                "en": "earned"
+            },
+            "definition": {
+                "en": "Indicates that the actor has earned or has been awarded the object."
+            },
+            "exactMatch": [
+                "http://specification.openbadges.org/xapi/verbs/earned"
+            ]
+        },
+        {
+            "id": "http://activitystrea.ms/experience",
+            "type": "Verb",
+            "inScheme": "http://activitystrea.ms/schema",
+            "prefLabel": {
+                "en": "experienced"
+            },
+            "definition": {
+                "en": "Indicates that the actor has experienced the object in some manner. Note that, depending on the specific object types used for both the actor and object, the meaning of this verb can overlap that of the consume and play verbs. For instance, a person might experience a movie; or play the movie; or consume the movie. The experience verb can be considered a more generic form of other more specific verbs as consume, play, watch, listen, and read."
+            },
+            "exactMatch": [
+                "http://adlnet.gov/expapi/verbs/experienced"
+            ]
+        },
+        {
+            "id": "http://adlnet.gov/expapi/verbs/experienced",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/adl/v1.0",
+            "prefLabel": {
+                "en": "experienced"
+            },
+            "definition": {
+                "en": "Indicates the actor only encountered the object, and is applicable in situations where a specific achievement or completion is not required."
+            }
+        },
+        {
+            "id": "http://id.tincanapi.com/verb/expired",
+            "type": "Verb",
+            "inScheme": "https://registry.tincanapi.com",
+            "prefLabel": {
+                "en": "expired"
+            },
+            "definition": {
+                "en": "Indicates that the object (a competency or certification) has expired for the actor."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/verbs/failed",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/scorm/v/2",
+            "prefLabel": {
+                "en": "failed"
+            },
+            "definition": {
+                "en": "Indicates the actor did not successfully pass an activity to a level of predetermined satisfaction."
+            }
+        },
+        {
+            "id": "http://id.tincanapi.com/activitytype/goal",
+            "type": "ActivityType",
+            "inScheme": "https://registry.tincanapi.com",
+            "prefLabel": {
+                "en": "goal"
+            },
+            "definition": {
+                "en": "A goal is something that the actor wants to achieve, the purpose of doing a task or group of tasks. It can have subtasks and subgoals."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/verbs/initialized",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/scorm/v/2",
+            "prefLabel": {
+                "en": "initialized"
+            },
+            "definition": {
+                "en": "Indicates the activity provider has determined that the actor successfully started an activity."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/verbs/launched",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/adl/v1.0",
+            "prefLabel": {
+                "en": "launched"
+            },
+            "definition": {
+                "en": "Indicates the actor attempted to start an activity."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/activities/lesson",
+            "type": "ActivityType",
+            "inScheme": "https://w3id.org/xapi/scorm/v/2",
+            "prefLabel": {
+                "en": "lesson"
+            },
+            "definition": {
+                "en": "A lesson is learning content that may or may not take on the form of a SCO (formal, tracked learning). A lesson may stand-alone or may be part of a larger course."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/activities/link",
+            "type": "ActivityType",
+            "inScheme": "https://w3id.org/xapi/adl/v1.0",
+            "prefLabel": {
+                "en": "link"
+            },
+            "definition": {
+                "en": "A link is simply a means of expressing a link to another resource within, or external to, an activity. A link is not synonymous with launching another resource and should be considered external to the current resource. Links are not learning content, nor SCOs. If a link is intended for this purpose, it should be re-categorized."
+            }
+        },
+        {
+            "id": "https://w3id.org/xapi/adl/verbs/logged-in",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/adl/v1.0",
+            "prefLabel": {
+                "en": "logged-in"
+            },
+            "definition": {
+                "en": "Indicates the actor gained access to a system or service by identifying and authenticating with the credentials provided by the actor."
+            }
+        },
+        {
+            "id": "https://w3id.org/xapi/adl/verbs/logged-out",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/adl/v1.0",
+            "prefLabel": {
+                "en": "logged-out"
+            },
+            "definition": {
+                "en": "Indicates the actor either lost or discontinued access to a system or service."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/verbs/mastered",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/adl/v1.0",
+            "prefLabel": {
+                "en": "mastered"
+            },
+            "definition": {
+                "en": "Indicates the highest level of comprehension or competence the actor performed in an activity."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/activities/media",
+            "type": "ActivityType",
+            "inScheme": "https://w3id.org/xapi/adl/v1.0",
+            "prefLabel": {
+                "en": "media"
+            },
+            "definition": {
+                "en": "Media refers to text, audio, or video used to convey information. Media can be consumed (tracked: completed), but doesn’t have an interactive component that may result in a score, success, or failure."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/activities/module",
+            "type": "ActivityType",
+            "inScheme": "https://w3id.org/xapi/scorm/v/2",
+            "prefLabel": {
+                "en": "module"
+            },
+            "definition": {
+                "en": "A module represents any “content aggregation” at least one level below the course level. Modules of modules can exist for layering purposes. Modules are not content. Modules are one level up from all content."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/activities/objective",
+            "type": "ActivityType",
+            "inScheme": "https://w3id.org/xapi/scorm/v/2",
+            "prefLabel": {
+                "en": "objective"
+            },
+            "definition": {
+                "en": "An objective determines whether competency has been achieved in a desired area. Objectives typically are associated with questions and assessments. Objectives are not learning content and cannot be SCOs."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/verbs/passed",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/scorm/v/2",
+            "prefLabel": {
+                "en": "passed"
+            },
+            "definition": {
+                "en": "Indicates the actor successfully passed an activity to a level of predetermined satisfaction."
+            },
+            "broader": [
+                "http://adlnet.gov/expapi/verbs/completed"
+            ]
+        },
+        {
+            "id": "http://adlnet.gov/expapi/activities/performance",
+            "type": "ActivityType",
+            "inScheme": "https://w3id.org/xapi/adl/v1.0",
+            "prefLabel": {
+                "en": "performance"
+            },
+            "definition": {
+                "en": "A performance is an attempted task or series of tasks within a particular context. Tasks would likely take on the form of interactions, or the performance could be self-contained content. It emphasizes students or learners being able to do, or perform, specific skills as a result of the instruction."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/verbs/progressed",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/adl/v1.0",
+            "prefLabel": {
+                "en": "progressed"
+            },
+            "definition": {
+                "en": "Indicates a value of how much of an actor has advanced or moved through an activity."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/verbs/registered",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/adl/v1.0",
+            "prefLabel": {
+                "en": "registered"
+            },
+            "definition": {
+                "en": "Indicates the actor is officially enrolled or inducted in an activity."
+            }
+        },
+        {
+            "id": "http://id.tincanapi.com/activitytype/resource",
+            "type": "ActivityType",
+            "inScheme": "https://registry.tincanapi.com",
+            "prefLabel": {
+                "en": "resource"
+            },
+            "definition": {
+                "en": "A resource is a generic item that the actor may use for something. It could be a video, a text article, a device, etc. However, it is recommended to use a more specific activity type like those mentioned."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/verbs/scored",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/scorm/v/2",
+            "prefLabel": {
+                "en": "scored"
+            },
+            "definition": {
+                "en": "Indicates a numerical value related to an actor's performance on an activity."
+            }
+        },
+        {
+            "id": "http://activitystrea.ms/search",
+            "type": "Verb",
+            "inScheme": "http://activitystrea.ms/schema",
+            "prefLabel": {
+                "en": "searched"
+            },
+            "definition": {
+                "en": "Indicates that the actor is or has searched for the object. If a target is specified, it indicates the context within which the search is or has been conducted."
+            },
+            "exactMatch": [
+                "https://w3id.org/xapi/acrossx/verbs/searched"
+            ]
+        },
+        {
+            "id": "https://w3id.org/xapi/gblxapi/extensions/skill",
+            "type": "ContextExtension",
+            "inScheme": "https://w3id.org/xapi/gblxapi/v1.0",
+            "prefLabel": {
+                "en": "skill"
+            },
+            "definition": {
+                "en": "Represents a skills type the actor has experienced in the statement. An example for GBLxAPI for science is Cause and Effect."
+            }
+        },
+        {
+            "id": "http://adlnet.gov/expapi/verbs/terminated",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/scorm/v/2",
+            "prefLabel": {
+                "en": "terminated"
+            },
+            "definition": {
+                "en": "Indicates that the actor successfully ended an activity."
+            }
+        },
+        {
+            "id": "http://activitystrea.ms/terminate",
+            "type": "Verb",
+            "inScheme": "http://activitystrea.ms/schema",
+            "prefLabel": {
+                "en": "terminated"
+            },
+            "definition": {
+                "en": "Indicates that the actor successfully ended an activity."
+            },
+            "exactMatch": [
+                "http://adlnet.gov/expapi/verbs/terminated"
+            ]
+        },
+        {
+            "id": "http://adlnet.gov/expapi/activities/question",
+            "type": "ActivityType",
+            "inScheme": "https://w3id.org/xapi/adl/v1.0",
+            "prefLabel": {
+                "en": "question"
+            },
+            "definition": {
+                "en": "A question is typically part of an assessment and requires a response from the learner, a response that is then evaluated for correctness."
+            },
+            "exactMatch": [
+                "http://activitystrea.ms/schema/question"
+            ]
+        },
+        {
+            "id": "http://activitystrea.ms/question",
+            "type": "ActivityType",
+            "inScheme": "http://activitystrea.ms/schema",
+            "prefLabel": {
+                "en": "question"
+            },
+            "definition": {
+                "en": "Represents a question or a poll. Objects of this type MAY contain an additional options property whose value is an Array of possible answers to the question in the form of Activity Stream objects of any type."
+            },
+            "exactMatch": [
+                "http://adlnet.gov/expapi/activities/question"
+            ]
+        },
+        {
+            "id": "http://adlnet.gov/expapi/verbs/voided",
+            "type": "Verb",
+            "inScheme": "https://w3id.org/xapi/adl/v1.0",
+            "prefLabel": {
+                "en": "voided"
+            },
+            "definition": {
+                "en": "A special reserved verb used by a LRS or application to mark a statement as invalid. See the xAPI specification for details on Voided statements."
+            }
+        }
+    ]
+}

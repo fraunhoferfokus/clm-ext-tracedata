@@ -1,0 +1,343 @@
+/traceData:
+  post:
+    description: Supports Experience-API (xAPI) and CALIPER
+    summary: Create trace data
+    externalDocs:
+      description: Experience API | Statement Resource | POST Statements
+      url: >-
+        https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Communication.md#212-post-statements
+    operationId: createTraceData
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: array
+            description: xApi array
+            items:
+              type: object
+              description: xApi conformant statement to be sent to the lrs
+              properties:
+                actor:
+                  type: object
+                  properties:
+                    name:
+                      example: Sally Glider
+                    mbox:
+                      description: >-
+                        The plain text email address of the user. 'mailto:'
+                        must be placed in front of the email.
+                      example: "mailto:sally@example.com"
+                verb:
+                  type: object
+                  properties:
+                    id:
+                      example: "http://adlnet.gov/expapi/verbs/experienced"
+                    display:
+                      description: the language displayed for the user
+                      type: object
+                      example:
+                        en-US: experienced
+                object:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "https://learningmiddleware.fokus.fraunhofer.de/"
+                      description: >-
+                        The course-element-id should be placed on the last
+                        slash! Requirement of xAPI for id properties to be URI
+                        conformant.
+                    definition:
+                      type: object
+                      properties:
+                        name:
+                          type: object
+                          example:
+                            en-US: Solo Hang Gliding
+    parameters:
+      - name: providerId
+        description: ProviderId for client-side routing control
+        in: query
+        required: false
+        type: string
+        format: uuid
+    tags:
+      - pblc
+    responses:
+      "200":
+        description: Succesfully sent a statement to the LRS
+        content:
+          application/json:
+            schema:
+              type: array
+              description: Array containing the statemnet-ids
+              items:
+                type: string
+                description: The statement-id of the fired statement
+                example: IOJIJS838JJ9922929000111
+      "400":
+        description: Bad request
+        content:
+          application/json:
+            schema:
+              description: Bad request
+              type: object
+              properties:
+                message:
+                  description: error message
+                  example: Bad Input || Username or password wrong
+                  type: string
+      "500":
+        description: Server Error
+        content:
+          application/json:
+            schema:
+              description: Server Error
+              type: object
+              properties:
+                message:
+                  description: error message
+                  example: "Internal server error occured, please try again later"
+                  type: string
+  get:
+    description: Supports Experience-API (xAPI) and CALIPER
+    summary: "List trace data "
+    externalDocs:
+      description: Experience API | Statement Resource | GET Statements
+      url: >-
+        https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Communication.md#213-get-statements
+    operationId: readTraceData
+    parameters:
+      - name: providerId
+        description: ProviderId for client-side routing control
+        in: query
+      - name: statementId
+        description: query statementId
+        in: query
+      - name: voidedStatementId
+        description: query Voided Statements
+        in: query
+      - name: agent
+        description: query agent
+        in: query
+      - name: verb
+        description: query verb.
+        in: query
+      - name: activity
+        description: query activity
+        in: query
+      - name: registration
+        description: query registration.
+        in: query
+      - name: related_activities
+        description: query related_acitivities
+        in: query
+      - name: related_agents
+        description: query related_agents
+        in: query
+      - name: since
+        description: querysince
+        in: query
+      - name: until
+        description: query until
+        in: query
+      - name: limit
+        description: query limit
+        in: query
+      - name: format
+        description: query format
+        in: query
+      - name: attachments
+        description: query attachments
+        in: query
+      - name: ascending
+        description: query ascending
+        in: query
+    tags:
+      - pblc
+    responses:
+      "200":
+        description: Succesfully got statement(s) to the LRS(s).
+        content:
+          application/json:
+            schema:
+              type: object
+              description: >-
+                Object containing the names of the lrss as key and as value
+                their respective statement-ids
+              properties:
+                more:
+                  description: ""
+                  example: >-
+                    http://localhost:8010/xapi/learningobjects/statements?limit=1&ascending=true&since=2021-08-11T15%3A47%3A28.702Z
+                  type: string
+                actor:
+                  description: ""
+                  example: name | sha1sum |homePage
+                  type: string
+                verb:
+                  description: ""
+                  example: id
+                  type: string
+                context:
+                  description: ""
+                  example: registration | extensions | contextActivities | category
+                  type: string
+                object:
+                  description: ""
+                  example: id | objectType | definition
+                  type: string
+                stored:
+                  description: ""
+                  example: "2021-08-11T15:45:57.939Z"
+                  type: string
+                authority:
+                  description: ""
+                  example: objectType | name | mbox
+                  type: string
+                version:
+                  description: ""
+                  example: 1.0.0
+                  type: string
+      "400":
+        description: Bad request
+        content:
+          application/json:
+            schema:
+              description: Bad request
+              type: object
+              properties:
+                message:
+                  description: error message
+                  example: Bad Input || Username or password wrong
+                  type: string
+      "500":
+        description: Server Error
+        content:
+          application/json:
+            schema:
+              description: Server Error
+              type: object
+              properties:
+                message:
+                  description: error message
+                  example: "Internal server error occured, please try again later"
+                  type: string
+/grading-service:
+  post:
+    description: LTI Basic Outcome Service
+    summary: >-
+      This is the basic outcome service. The results are redirected to LRS. To
+      Access this route you need a bearer token from /oidc/oauth-token
+    externalDocs:
+      description: Learning Tools Interoperability Basic Outcomes
+      url: "http://www.imsglobal.org/spec/lti-bo/v1p1"
+    operationId: createGrade
+    parameters:
+      - name: "imsx_POXEnvelopeRequest "
+        description: >-
+          XML body. Must be either of the type: replaceResult, readResult,
+          deleteResult. For more examples look at the official ims docs.
+          ApplicationType MUST be application/vnd.ims.lti.v1.outcome+xml
+        in: body
+        required: true
+        type: application/vnd.ims.lti.v1.outcome+xml
+        format: uuid
+        example: >-
+          <?xml version='1.0' encoding='UTF-8'?>
+
+          <imsx_POXEnvelopeRequest
+          xmlns='http://www.imsglobal.org/services/ltiv1p1/xsd/imsoms_v1p0'>
+
+          <imsx_POXHeader>
+
+          <imsx_POXRequestHeaderInfo>
+
+          <imsx_version>V1.0</imsx_version>
+
+          <imsx_messageIdentifier>999999123</imsx_messageIdentifier>
+
+          </imsx_POXRequestHeaderInfo>
+
+          </imsx_POXHeader>
+
+          <imsx_POXBody>
+
+          <replaceResultRequest>
+
+          <resultRecord>
+
+          <sourcedGUID>
+
+          <sourcedId>3124567</sourcedId>
+
+          </sourcedGUID>
+
+          <result>
+
+          <resultScore>
+
+          <language>en</language>
+
+          <textString>0.92</textString>
+           </resultScore>
+          </result>
+
+          </resultRecord>
+
+          </replaceResultRequest>
+           </imsx_POXBody>
+           </imsx_POXEnvelopeRequest>
+    tags:
+      - pblc
+    responses:
+      "200":
+        description: >-
+          If imsx_codeMajor is failure --> the request could not be executed
+          successfully. If imsx_codeMajor is success --> request could be
+          executed successfully.
+        content:
+          application/json:
+            schema:
+              type: array
+              description: >-
+                If imsx_codeMajor is failure --> the request could not be
+                executed successfully. If imsx_codeMajor is success -->
+                request could be executed successfully.
+              items:
+                type: string
+                description: XML Response
+                example: >-
+                  <?xml version='1.0' encoding='UTF-8'?>
+
+                  <imsx_POXEnvelopeResponse
+                  xmlns='http://www.imsglobal.org/services/ltiv1p1/xsd/imsoms_v1p0'>
+                   <imsx_POXHeader>
+                   <imsx_POXResponseHeaderInfo>
+                    <imsx_version>V1.0</imsx_version>
+                    <imsx_messageIdentifier>4560</imsx_messageIdentifier>
+                    <imsx_statusInfo>
+                    <imsx_codeMajor>success</imsx_codeMajor>
+                    <imsx_severity>status</imsx_severity>
+                    <imsx_description>Score for 3124567 is now 0.92</imsx_description>
+                    <imsx_messageRefIdentifier>999999123</imsx_messageRefIdentifier>
+                    <imsx_operationRefIdentifier>replaceResult</imsx_operationRefIdentifier>
+                   </imsx_statusInfo>
+                    </imsx_POXResponseHeaderInfo>
+                    </imsx_POXHeader>
+                   <imsx_POXBody>
+                     <replaceResultResponse />
+                   </imsx_POXBody>
+                   </imsx_POXEnvelopeResponse>
+      "500":
+        description: Server Error
+        content:
+          application/json:
+            schema:
+              description: Server Error
+              type: object
+              properties:
+                message:
+                  description: error message
+                  example: "Internal server error occured, please try again later"
+                  type: string

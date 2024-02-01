@@ -1,0 +1,137 @@
+openapi: 3.0.0
+info:
+  title: CLM-EXT-Tools API
+  version: 1.0.0
+  description: API endpoints the clm-ext-tools module offers
+servers:
+  - url: '{scheme}://{hostname}:{port}{path}'
+    description: The production API server
+    variables:
+      hostname:
+        default: localhost
+      port:
+        default: '5012'
+      path:
+        default: ''
+      scheme:
+        default: http
+security:
+  - bearerAuth: []
+paths:
+  /traceData:
+    get:
+      description: Supports Experience-API (xAPI) and CALIPER
+      summary: List trace data
+      externalDocs:
+        description: Experience API | Statement Resource | GET Statements
+        url: https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Communication.md#213-get-statements
+      tags:
+        - pblc
+      parameters:
+        - name: providerId
+          description: ProviderId for client-side routing control
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Succesfully got statement(s) to the LRS(s).
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Object containing the names of the lrss as key and as value their respective statement-ids
+                properties:
+                  more:
+                    type: string
+                    example: http://localhost:8010/xapi/learningobjects/statements?limit=1&ascending=true&since=2021-08-11T15%3A47%3A28.702Z
+    post:
+      description: Supports Experience-API (xAPI) and CALIPER
+      summary: Create trace data
+      externalDocs:
+        description: Experience API | Statement Resource | POST Statements
+        url: https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Communication.md#212-post-statements
+      operationId: createTraceData
+      tags:
+        - pblc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              description: xApi array
+              items:
+                type: object
+                description: xApi conformant statement to be sent to the lrs
+                properties:
+                  actor:
+                    type: object
+                    properties:
+                      name:
+                        example: Sally Glider
+                      mbox:
+                        description: The plain text email address of the user. 'mailto:' must be placed in front of the email.
+                        example: mailto:sally@example.com
+      parameters:
+        - name: providerId
+          description: ProviderId for client-side routing control
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Succesfully sent a statement to the LRS
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Array containing the statemnet-ids
+                items:
+                  type: string
+                  description: The statement-id of the fired statement
+                  example: IOJIJS838JJ9922929000111
+components:
+  schemas:
+    relation:
+      type: object
+      properties:
+        fromType:
+          type: string
+          description: The type of the node
+          default: fromTypeNode
+        toType:
+          type: string
+          description: The type of the target node
+          default: toTypeNode
+        fromId:
+          type: string
+          description: The id of the node
+          default: fromNodeId
+        toId:
+          type: string
+          description: The id of the target node
+          default: toNodeId
+        order:
+          type: number
+          description: The order of the relation. Used for example ordering the enrollments of a group/user
+          default: 0
+  parameters:
+    accessToken:
+      name: x-access-token
+      in: header
+      description: The access token
+      required: true
+      example: exampleAccessToken
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    refreshAuth:
+      type: apiKey
+      in: header
+      name: x-refresh-token
+tags: []
