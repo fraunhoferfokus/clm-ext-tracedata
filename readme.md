@@ -1,19 +1,5 @@
 **This microservice is based upon  [clm-core](https://github.com/fraunhoferfokus/clm-core) and extends the basic functionalities with additional features**
 
-# What is the Common Learning Middleware?
-
-Connecting disparate learning environments into educational ecosystems using open standards is a core use case of the Common Learning Middleware (CLM). Based on the best-of-breed approach, various providers of educational offerings can connect their learning content as learning nuggets via the CLM using a publish-subscribe system in order to increase their own reach. The CLM supports common standards of a seamless educational journey - to facilitate integration - and is also able to translate from one standard of a client system to the other or the same standard of the target system at the runtime of a request. 
-
-CLM serves as a mediator between learning platforms and learning content, while the integration of further standards enables consumers to offer extended services, such as AI-supported systems, recommender systems or learning analytics systems via the CLM.
-
-The two videos below explain CLM from the perspective of a user and provider.
-
-#### User
-https://github.com/fraunhoferfokus/clm-core/assets/135810890/44a340ab-1d86-4930-9c08-bffe457bc222
-
-#### Provider
-https://github.com/fraunhoferfokus/clm-core/assets/135810890/87cd557e-3214-4b13-b49d-703f9eccca7d
-
 ## CLM-EXT-TRACEDATA
 This service is utilized for persisting xAPI statements from learners when they submit learning activities through a content provider. It routes the appropriate statements to the associated learning records stores based on group affiliations.
 
@@ -90,5 +76,5 @@ We will be happy to answer your questions at {clm@fokus.fraunhofer.de}
 
 ## License
 
-The project is made available under the license in the file [LICENSE.txt](LICENSE.txt)
+The project is made available under the license in the file [license.txt](LICENSE.txt)
 
