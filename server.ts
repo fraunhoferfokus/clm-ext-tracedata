@@ -79,6 +79,6 @@ Promise.all([
     pathBDTOInstance.registerRoutes(app, ECLUDED_PATHS)
 ]).then(() => {
     app.listen(PORT, () => {
-        console.log("tracedata service")
+        console.log(`tracedata service running on port ${PORT}`)
     })
 })

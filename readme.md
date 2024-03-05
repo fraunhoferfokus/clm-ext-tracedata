@@ -56,8 +56,9 @@ Following table gives an overview of the settings you can change through the env
 
 3.1 `npm run dev` for development with nodemon
 3.2 `npm start` for deployment
+4.  Subsequently, the JSON representation of the Open-API specification should be accessible at:
 
-
+`http://localhost:${PORT}/traceData/swagger`
 
 
 # Swagger Documentation
