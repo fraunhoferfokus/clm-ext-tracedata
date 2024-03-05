@@ -60,6 +60,8 @@ Following table gives an overview of the settings you can change through the env
 
 `http://localhost:${PORT}/traceData/swagger`
 
+**To access the API endpoints detailed in the Open-API specification, an API token is required. This token is generated during the initialization of the clm-core module. For further details, please consult the documentation at clm-core.**
+
 
 # Swagger Documentation
 
