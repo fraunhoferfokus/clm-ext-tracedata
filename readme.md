@@ -4,8 +4,11 @@
 This service is utilized for persisting xAPI statements from learners when they submit learning activities through a content provider. It routes the appropriate statements to the associated learning records stores based on group affiliations.
 
 ## Requirements
-- MariaDB, set up locally.
-- Node.js 20.x
+- MariaDB, set up locally. This service leverages a database (DB) as the cornerstone for storing documents persistently. To establish a connection with MariaDB, it is essential that the database is secured through username and password authentication. Therefore, in order to run this service it is  required to create a database within the MariaDB and configure it with a username and password for access control
+  * MariaDB Installation: https://mariadb.com/kb/en/getting-installing-and-upgrading-mariadb/
+  * For setting up the password of a user: https://mariadb.com/kb/en/set-password/
+
+- Node.js 20.x: https://nodejs.org/en/download
 
 ### Folder Structure
 root
@@ -38,9 +41,9 @@ The `clm-ext-tracedata` module does not utilize resources on its own but leverag
 This service functions as a web microservice that can be orchestrated through a gateway and as an npm package to provide functionalities to other CLM extensions. A microservice can build upon the classes/types/interfaces of this service to extend basic functionalities.
 
 ## Setup for testing the webserver 
-
-1. npm install
-2. Copy .env.default to .env and overwrite needed properties
+1. The service's configuration can be customized by referring to the `.env` file. Within this file, the `MARIA_CONFIG` variable should be updated with the appropriate values to reflect the user's specific database settings. Refer to the `MARIA_CONFIG` variable in the table below to see which comma seperated value refers to which respective database setting. 
+2. npm install
+3. Copy .env.default to .env and overwrite needed properties
 
 Following table gives an overview of the settings you can change through the environment variables
 
