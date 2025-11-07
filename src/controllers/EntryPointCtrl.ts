@@ -138,17 +138,18 @@ class TraceDataController extends BaseExtensionCtrl {
             const providerIndex = services.findIndex((provider) => provider._id === queryProviderId)
             const service = services.find((item) => item._id === queryProviderId)
             if (!service) return next({ status: 400, message: `Provider with that id does not exist!:  ${queryProviderId}` })
-            if (providerIndex < 0) return next({ status: 400, message: "provider with that id not found" })
 
             const authToken = `Basic ${btoa(
                 `${service.username}:${service.password}`
-            )}`; let fullUrl = service.baseUrl + '/statements';
+            )}`;
 
-            let searchParams;
-            searchParams = new URLSearchParams(req.originalUrl.split('?')[1]);
+            let fullUrl = service.baseUrl + '/statements';
+
+            let searchParams = new URLSearchParams(req.originalUrl.split('?')[1]);
             searchParams.delete('providerId');
             searchParams.delete('hashStatements')
-            searchParams.set('ascending', 'true');
+
+            // searchParams.set('ascending', searchParams.get('ascending') === 'true' ? 'true' : 'false');
             fullUrl += '?' + searchParams.toString();
             let statementResult = (await axios.get(fullUrl, {
                 headers: {
@@ -157,36 +158,26 @@ class TraceDataController extends BaseExtensionCtrl {
                 },
             }))
 
-            const more = statementResult.data.more
+            let data = statementResult.data
 
-
-            if (more.length > 0) {
-                const urlParts = service.baseUrl.split('/');
-                const newUrl =
-                    urlParts[0] + '//' + urlParts[1] + urlParts[2] + more;
-                const moreData = await axios.get(newUrl, {
-                    headers: {
-                        Authorization: authToken,
-                        'X-Experience-API-Version': '1.0.3',
-                    },
-                });
-
-                if (moreData.data.statements.length != 0) {
-                    const fullUrll = process.env.DEPLOY_URL + req.originalUrl;
-                    searchParams.set('since', statementResult.data.statements[statementResult.data.statements.length - 1].timestamp);
-                    searchParams.set('providerId', queryProviderId as string);
-                    statementResult.data.more = fullUrll.split('?')[0] + '?' + searchParams.toString();
-                    statementResult.data.lrs = service.displayName
+            let reconstructedUrlMoreLink = process.env.DEPLOY_URL + req.originalUrl.split('?')[0]
+            if (data.more) {
+                let cursor = new URLSearchParams(data.more.split('?')[1]).get('cursor')
+                searchParams.set('cursor', cursor!)
+                searchParams.set('providerId', queryProviderId as string)
+                reconstructedUrlMoreLink += `?${searchParams.toString()}`
+            } else {
+                let nextProviderId = services[providerIndex + 1]?._id
+                if (nextProviderId) {
+                    searchParams.set('providerId', nextProviderId as string)
+                    reconstructedUrlMoreLink += `?${searchParams.toString()}`
+                } else {
+                    reconstructedUrlMoreLink = ''
                 }
-            } else if (more.length <= 0 && (services.length - 1) === providerIndex) {
-                statementResult.data.more = ''
-            } else if (more.length <= 0 && (services.length - 1) !== providerIndex) {
-                const fullUrll = process.env.DEPLOY_URL + req.originalUrl;
-                const nextProvider = services[providerIndex + 1]
-                searchParams.set('all_providerIds', "true");
-                searchParams.set('providerId', nextProvider._id);
-                statementResult.data.more = fullUrll.split('?')[0] + '?' + searchParams.toString();
             }
+
+            statementResult.data.more = reconstructedUrlMoreLink
+            statementResult.data.lrs = service.displayName
 
             if (req.query.hashStatements) this.hashStatements(statementResult.data.statements)
             return res.json(statementResult.data)
@@ -270,6 +261,17 @@ class TraceDataController extends BaseExtensionCtrl {
             baseUrl = baseUrl + '/statements';
         const authToken = `Basic ${btoa(`${username}:${password}`)}`;
         for (const statement of newStatements) {
+
+            // moodle specific setting to include the clm-id to the statements
+            let externalId = statement?.object?.definition?.extensions?.['https://w3id.org/learning-analytics/learning-management-system/external-id']
+
+            if (typeof externalId !== 'undefined') {
+                console.log('setting external id manually')
+                let split = statement?.actor?.name?.split(' ')
+                let id = split[split.length - 1]
+                statement.object.id = process.env.DEPLOY_URL + '/launch/' + id
+            }
+
             for (let prop in statement.actor) {
                 if (prop === 'mbox')
                     statement.actor['mbox_sha1sum'] = get_hash(
@@ -277,9 +279,10 @@ class TraceDataController extends BaseExtensionCtrl {
                     );
                 delete statement.actor[prop];
             }
+
+
         }
         return await this.postStatements(authToken, newStatements, baseUrl, res);
-
     }
 
 
@@ -329,33 +332,107 @@ const baseLocation = process.env.BASE_PATH || 'traceData'
  * @openapi
  * /traceData:
  *   get:
- *     description: Supports Experience-API (xAPI) and CALIPER
  *     summary: List trace data
- *     externalDocs:
- *       description: Experience API | Statement Resource | GET Statements
- *       url: https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Communication.md#213-get-statements
- *     tags:
- *       - pblc
+ *     description: Supports Experience-API (xAPI) and CALIPER
+ *     tags: [pblc]
  *     parameters:
- *       - name: providerId
- *         description: ProviderId for client-side routing control
- *         in: query
- *         required: false
+ *       - in: query
+ *         name: providerId
  *         schema:
- *          type: string
+ *           type: string
+ *         description: ProviderId for client-side routing control
+ *         required: false
+ *       - in: query
+ *         name: agent
+ *         schema:
+ *           type: string
+ *         description: Filters statements to those related to a specific agent. Value must be a JSON-encoded xAPI Agent object.
+ *         required: false
+ *       - in: query
+ *         name: verb
+ *         schema:
+ *           type: string
+ *         description: Filters statements by verb. Matches the ID of the xAPI verb.
+ *         required: false
+ *       - in: query
+ *         name: activity
+ *         schema:
+ *           type: string
+ *         description: Filters statements to those related to a specific activity. Value should be the ID of the activity.
+ *         required: false
+ *       - in: query
+ *         name: registration
+ *         schema:
+ *           type: string
+ *         description: Filters statements by registration ID, correlating statements within a session/course instance.
+ *         required: false
+ *       - in: query
+ *         name: related_activities
+ *         schema:
+ *           type: boolean
+ *         description: Includes statements related to the specified activity when set to true.
+ *         required: false
+ *       - in: query
+ *         name: related_agents
+ *         schema:
+ *           type: boolean
+ *         description: Includes statements related to the specified agent when set to true.
+ *         required: false
+ *       - in: query
+ *         name: since
+ *         schema:
+ *           type: string
+ *           format: date-time
+ *         description: Filters statements stored after the specified timestamp.
+ *         required: false
+ *       - in: query
+ *         name: until
+ *         schema:
+ *           type: string
+ *           format: date-time
+ *         description: Filters statements stored before the specified timestamp.
+ *         required: false
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Specifies the maximum number of statements to return for pagination.
+ *         required: false
+ *       - in: query
+ *         name: format
+ *         schema:
+ *           type: string
+ *         description: Determines the format of the returned statements (exact, canonical, ids).
+ *         required: false
+ *       - in: query
+ *         name: ascending
+ *         schema:
+ *           type: boolean
+ *         description: Returns statements in ascending order of storage time when set to true.
+ *         required: false
+ *       - in: query
+ *         name: attachments
+ *         schema:
+ *           type: boolean
+ *         description: Includes attachments in statement results when set to true.
+ *         required: false
  *     responses:
  *       200:
- *         description: Succesfully got statement(s) to the LRS(s).
+ *         description: Successfully retrieved statement(s) from the LRS(s).
  *         content:
  *           application/json:
  *             schema:
  *               type: object
- *               description: Object containing the names of the lrss as key and as value their respective statement-ids
+ *               description: Object containing the names of the LRSs as key and as value their respective statement-ids
  *               properties:
  *                 more:
  *                   type: string
  *                   example: "http://localhost:8010/xapi/learningobjects/statements?limit=1&ascending=true&since=2021-08-11T15%3A47%3A28.702Z"
+ *     externalDocs:
+ *       description: Experience API | Statement Resource | GET Statements
+ *       url: https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Communication.md#213-get-statements
  */
+
 controller.router.get('/', controller.getTraceData)
 
 /**
@@ -411,7 +488,10 @@ controller.router.get('/', controller.getTraceData)
 controller.router.post('/', controller.postTraceData())
 
 
+controller.router.post('/statements', controller.postTraceData())
 
+
+// SwaggerDefinition.addComponentSchema('jsonld', profileJsonLd)
 
 // SwaggerDefinition.addPath(`${baseLocation}/profiles/{version}`,
 

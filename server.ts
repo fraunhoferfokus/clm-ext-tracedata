@@ -48,6 +48,9 @@ const ECLUDED_PATHS = [
     `${basePath}/swagger`,
     `${basePath}/profiles/v1p0`,
     `${basePath}/profiles/v1p1`,
+    `${basePath}/profiles/v1`,
+    `${basePath}/statements`,
+    '/health',
 ]
 
 app.use(function (req, res, next) {
@@ -79,6 +82,6 @@ Promise.all([
     pathBDTOInstance.registerRoutes(app, ECLUDED_PATHS)
 ]).then(() => {
     app.listen(PORT, () => {
-        console.log(`tracedata service running on port ${PORT}`)
+        console.log("tracedata service")
     })
 })

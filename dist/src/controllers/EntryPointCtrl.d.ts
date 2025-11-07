@@ -36,6 +36,7 @@ declare class TraceDataController extends BaseExtensionCtrl {
     hashStatements(statements: any): void;
     private sendToSpecificLRS;
     private postStatements;
+    getInfo: express.Handler;
 }
 declare const controller: TraceDataController;
 export default controller;

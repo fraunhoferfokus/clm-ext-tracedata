@@ -10,7 +10,7 @@ servers:
       hostname:
         default: localhost
       port:
-        default: '5012'
+        default: '80'
       path:
         default: ''
       scheme:
@@ -92,6 +92,18 @@ paths:
                   type: string
                   description: The statement-id of the fired statement
                   example: IOJIJS838JJ9922929000111
+  /traceData/profiles/v1:
+    get:
+      description: Supports Experience-API (xAPI) and CALIPER
+      summary: Get profile information
+      externalDocs:
+        description: Experience API | Statement Resource | POST Statements
+        url: https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Communication.md#212-post-statements
+      tags:
+        - pblc
+      responses:
+        '200':
+          description: Succesfully got profile information
 components:
   schemas:
     relation:
